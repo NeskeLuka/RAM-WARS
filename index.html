@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Two programs. One memory. No protection. An interactive assembly battle arena.">
+  <title>RAM WARS — program your opponent out of existence</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="src/engine.js"></script>
+  <script defer src="src/presets.js"></script>
+  <script defer src="src/app.js"></script>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#">RW<span class="brand-dot">■</span></a><span>COMPUTATIONAL COMBAT / VOL. 01</span><a href="#rules">Field manual ↗</a></header>
+<main>
+  <section class="intro"><div><p class="eyebrow">A BATTLE FOR EVERY BYTE</p><h1>RAM WARS<span>_</span></h1><p class="subtitle">Two programs. One memory. No protection.</p></div><p class="intro-note">Write a bot. Break a bot.<br>Watch the instructions fight.</p></section>
+  <div class="matchbar"><span id="status" role="status" aria-live="polite">READY</span><span id="match-message">Blue moves first. The entire memory is fair game.</span><span class="limit">256 CELLS · 10,000 TURN LIMIT</span></div>
+  <section class="battle-layout" aria-label="Battle workbench">
+    <aside class="bot-panel blue">
+      <div class="panel-heading"><span class="eyebrow">PROGRAM 01</span><span class="badge" id="blue-alive">ALIVE</span></div><h2><span class="dot"></span> Blue</h2>
+      <label for="blue-preset">Load a strategy</label><select id="blue-preset"></select><p class="preset-description" id="blue-description"></p>
+      <div class="editor-header"><label for="blue-code">SOURCE CODE</label><span>START @ 000</span></div><textarea id="blue-code" spellcheck="false" aria-describedby="blue-error" aria-label="Blue assembly program"></textarea><p class="error" id="blue-error" role="alert"></p>
+      <dl class="bot-stats"><div><dt>PROGRAM COUNTER</dt><dd id="blue-pc">000</dd></div><div><dt>MEMORY WRITES</dt><dd id="blue-writes">0</dd></div></dl>
+    </aside>
+    <section class="arena-panel" aria-label="Shared memory arena">
+      <div class="arena-heading"><h2>Shared memory</h2><span id="turn-counter">TURN 00000</span></div>
+      <div class="canvas-wrap"><canvas id="arena" width="640" height="640" tabindex="0" aria-label="16 by 16 memory grid. Click a cell or use arrow keys to inspect addresses."></canvas></div>
+      <div class="legend"><span><i class="legend-blue"></i>Blue</span><span><i class="legend-orange"></i>Orange</span><span><i class="legend-empty"></i>Untouched</span><span><i class="legend-pc"></i>PC outline</span></div>
+      <div class="controls"><button id="run" class="primary">▶ Run battle</button><button id="step">Step →</button><button id="reset" title="Reload both programs from the editors">↺ Reset / apply</button></div>
+      <div class="speed-row"><label for="speed">SPEED</label><input id="speed" type="range" min="0" max="6" value="2"><output id="speed-label" for="speed">20 turns/s</output></div>
+      <p id="pending" class="pending">Space: run / pause · N: step · R: reset</p>
+    </section>
+    <aside class="bot-panel orange">
+      <div class="panel-heading"><span class="eyebrow">PROGRAM 02</span><span class="badge" id="orange-alive">ALIVE</span></div><h2><span class="dot"></span> Orange</h2>
+      <label for="orange-preset">Load a strategy</label><select id="orange-preset"></select><p class="preset-description" id="orange-description"></p>
+      <div class="editor-header"><label for="orange-code">SOURCE CODE</label><span>START @ 128</span></div><textarea id="orange-code" spellcheck="false" aria-describedby="orange-error" aria-label="Orange assembly program"></textarea><p class="error" id="orange-error" role="alert"></p>
+      <dl class="bot-stats"><div><dt>PROGRAM COUNTER</dt><dd id="orange-pc">128</dd></div><div><dt>MEMORY WRITES</dt><dd id="orange-writes">0</dd></div></dl>
+    </aside>
+  </section>
+  <section class="diagnostics">
+    <div class="inspector"><p class="eyebrow">CELL INSPECTOR</p><div class="cell-title"><h2 id="cell-address">@000</h2><span id="cell-owner">Blue · loaded</span></div><code id="cell-instruction">MOV 3 8</code><p id="cell-explanation"></p><p id="cell-pointers" class="muted"></p><label for="cell-select">Inspect address</label><input id="cell-select" type="number" min="0" max="255" value="0"></div>
+    <div class="trace-panel"><div class="trace-heading"><p class="eyebrow">EXECUTION TRACE</p><span>LAST 60 TURNS / NEWEST FIRST</span></div><div id="trace" role="log" aria-live="off"><p class="trace-empty">The battlefield is quiet. Run a battle or step through an instruction.</p></div></div>
+  </section>
+  <section id="rules" class="rules"><div><p class="eyebrow">FIELD MANUAL</p><h2>Code is your weapon.<br>Memory is the battlefield.</h2><p>Each bot executes one instruction per turn. Overwrite your opponent’s code with DAT to eliminate it. Cells wrap from 255 back to 0; every address operand is relative to the instruction being executed.</p><p>Colors show the bot that loaded or last wrote a cell, not territory or health. A program can survive in cells written by its opponent.</p></div><div class="rules-table"><table><thead><tr><th>OPCODE</th><th>OPERATION</th></tr></thead><tbody><tr><td>DAT a b</td><td>Executing this kills the bot. Copying it is harmless.</td></tr><tr><td>MOV a b</td><td>Copy the instruction at PC + a into PC + b.</td></tr><tr><td>ADD a b</td><td>Add literal a to the b field of the cell at PC + b.</td></tr><tr><td>SUB a b</td><td>Subtract literal a from that destination’s b field.</td></tr><tr><td>JMP a b</td><td>Jump to PC + a; ignore b.</td></tr></tbody></table><p>Enter one opcode and two integers per line. Use ; for comments. Edits take effect with Reset / apply. Blue always moves first.</p></div></section>
+  <footer><span>RAM WARS / A TINY COMPUTER WITH NO MERCY</span><span>Inspired by Core War · Built with vanilla JavaScript</span></footer>
+</main>
+</body>
+</html>

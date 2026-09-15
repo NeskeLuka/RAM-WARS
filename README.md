@@ -1,6 +1,8 @@
 # RAM WARS
 ![RAM WARS Gameplay Screenshot](images/ram-wars-1.png)
+
 ![RAM WARS Gameplay Screenshot](images/ram-wars-2.png)
+
 **Two programs. One memory. No protection.**
 
 RAM WARS is a browser-based programming game where two assembly bots share a tiny computer—and try to overwrite each other out of existence.
